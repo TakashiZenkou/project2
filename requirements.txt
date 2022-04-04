@@ -9,3 +9,9 @@ PyJWT==2.3.0
 python-dotenv==0.19.2
 Werkzeug==2.0.3
 WTForms==3.0.1
+email_validator
+psycopg2
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-Script
+Flask-Login
