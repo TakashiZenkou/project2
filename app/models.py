@@ -1,7 +1,7 @@
 from . import db
 from werkzeug.security import generate_password_hash
 
-class Cars(db.model):
+class Cars(db.Model):
 
     __tablename__ = 'Cars'
     id = db.Column(db.Integer, primary_key=True)
@@ -15,15 +15,6 @@ class Cars(db.model):
     price = db.Column(db.Float(10,2))
     photo = db.Column(db.String(100))
     user_id = db.Column(db.Integer)
-
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
 
     def get_id(self):
         try:
@@ -46,8 +37,9 @@ class Cars(db.model):
         self.photo = photo
         self.user_id = user_id
 
-class Favourites(db.model):
+class Favourites(db.Model):
 
+    __tablename__ = 'Favourites'
     id = db.Column(db.Integer, primary_key=True)
     car_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
@@ -74,8 +66,9 @@ class Favourites(db.model):
         self.car_id = id
         self.user_id = user_id
 
-class Users(db.model):
+class Users(db.Model):
 
+    __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100),unique = True)
     password = db.Column(db.String(100))
