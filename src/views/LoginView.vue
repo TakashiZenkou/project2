@@ -1,11 +1,11 @@
 <script setup>
-import Home from '../components/Home.vue';
+import Login from '../components/Login.vue';
 
 </script>
 
 <template>
 
-<Home/>
+<Login/>
 
 </template>
 
