@@ -8,5 +8,5 @@ import AddCar from '../components/AddCar.vue';
 </template>
 
 <style>
-/* Add any component specific styles here */
+
 </style>

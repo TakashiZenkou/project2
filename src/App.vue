@@ -17,7 +17,6 @@ import Registration from './components/Registration.vue';
 
 <style>
 body {
-  padding-top: 75px;
   background-color: rgb(226, 223, 223);
 }
 </style>

@@ -10,5 +10,6 @@ import Login from '../components/Login.vue';
 </template>
 
 <style>
-/* Add any component specific styles here */
+
+
 </style>

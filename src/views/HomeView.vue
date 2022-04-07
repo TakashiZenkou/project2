@@ -10,5 +10,10 @@ import Home from '../components/Home.vue';
 </template>
 
 <style>
-/* Add any component specific styles here */
+
+.homepage {
+
+    overflow: hidden;
+}
+
 </style>

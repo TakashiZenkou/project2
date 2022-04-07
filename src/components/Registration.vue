@@ -1,5 +1,7 @@
 <template>
 
+<body>
+
     <div class="container-sm">
         <h2 class ="font-weight-bold">Register New User</h2>
         <div class="card shadow p-3 mb-5">
@@ -44,8 +46,9 @@
             <button class="btn btn-success btn-md" type = 'submit'>Register</button>
 
         </form>
-                    </div>
+        </div>
     </div>
+    </body>
 
 </template>
 
@@ -138,5 +141,7 @@ h2{
     font-weight: bold;
 }
 
-
+body{
+  padding-top: 75px;
+}
 </style>

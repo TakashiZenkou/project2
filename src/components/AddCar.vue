@@ -1,7 +1,7 @@
 <template>
-
-    <div class="container-sm">
-        <h2 class ="font-weight-bold">Add New Car</h2>
+    <body>
+        <div class="container-sm">
+            <h2 class ="font-weight-bold">Add New Car</h2>
         <div class="card shadow p-3 mb-5">
             <form @submit.prevent="" enctype="multipart/form-data" id = "addCarform">
             <div class="row mb-3">
@@ -25,7 +25,7 @@
                 </div>
             </div>
            <div class="row mb-3">
-                <div class="col">
+               <div class="col">
                     <label for = "Price" class ="font-weight-bold form-label">Price </label>
                     <input type ="text" placeholder="Enter Price" name = "Price" class = "form-control">
                 </div>
@@ -71,6 +71,7 @@
         </div>
     </div>
 
+                    </body>
 </template>
 
 <script>
@@ -117,5 +118,8 @@ h2{
     font-weight: bold;
 }
 
+body{
+  padding-top: 75px;
+}
 
 </style>

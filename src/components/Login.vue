@@ -1,4 +1,5 @@
 <template>
+<body>
 
     <div class="container">
         <h2 class ="font-weight-bold text-center">Login to your account</h2>
@@ -21,6 +22,7 @@
 
     </div>
 
+            </body>
 </template>
 
 <script>
@@ -99,5 +101,9 @@ export default{
 .font-weight-bold{
 
     font-weight: bold;
+}
+
+body{
+  padding-top: 75px;
 }
 </style>
