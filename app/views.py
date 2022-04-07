@@ -7,15 +7,16 @@ This file creates your application.
 
 import json
 from app import app,db,login_manager
-from flask import render_template, request, jsonify, send_file
+from flask import render_template, request, jsonify, send_file,redirect, url_for, flash
 import os
 from .models import Cars,Users,Favourites
-from .forms import UserForm
+from .forms import UserForm,LoginForm
 from werkzeug.utils import secure_filename
 from datetime import date
 import psycopg2
-
-
+from flask_wtf.csrf import generate_csrf
+from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.security import check_password_hash
 
 
 
@@ -33,36 +34,54 @@ def register():
     form = UserForm()
     if request.method == "POST" and form.validate_on_submit():
 
-        picture = form.data.photo
+        picture = request.form['photo']
         filename = secure_filename(picture.filename)
         picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 
         reg = Users(
 
-        username = form.data.username,
-        password = form.data.password,
-        fullname = form.data.fullname,
-        email = form.data.email,
-        location = form.data.location,
-        biography = form.data.biography,
-        photo = filename,
+        username = request.form['username'],
+        password = request.form['password'],
+        name = request.form['fullname'],
+        email = request.form['email'],
+        location = request.form['location'],
+        biography = request.form['biography'],
         date_joined = date.today()
         
         )
 
-        db.session.add(reg)
-        db.session.commit()
+      #  db.session.add(reg)
+       # db.session.commit()
 
         return jsonify({"message": 'User Registration Successful'})
+        
+    return jsonify(form_errors(form))
 
+@app.route('/api/csrf-token',methods=["GET"])
+def get_csrf():
+    return jsonify({'csrf_token' : generate_csrf()})
 
+@app.route("/api/auth/login", methods=["POST"])
+def login():
+    form = LoginForm()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+            user = Users.query.filter_by(username = username).first()
+            if user is not None and check_password_hash(user.password,password):
+                login_user(user)
+                flash('Logged in successfully.', 'success')
+                return redirect('./views/HomeView.vue')
+            else:
+                flash('Incorrect Credentials', 'danger')
+    return render_template("login.html",form =form)
 
-
-
-
-
-
-
+@login_required
+@app.route('/api/auth/logout', methods=["POST"])
+def logout():
+	logout_user()
+	return render_template('home.html')
 
 ###
 # The functions below should be applicable to all Flask apps.

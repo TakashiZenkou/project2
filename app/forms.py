@@ -12,7 +12,12 @@ class UserForm(FlaskForm):
     email = StringField('email',validators=[InputRequired()])
     location = StringField('location',validators=[InputRequired()])
     biography = StringField('bio',validators=[InputRequired()])
-    photo = FileField('photo',validators=[FileRequired(),FileAllowed(['jpg','png'])])
+    photo = FileField('photo',validators=[FileRequired(),FileAllowed(['jpg','png'],'Images')])
+
+class LoginForm(FlaskForm):
+
+    username = StringField('username',validators=[InputRequired()]) 
+    password = PasswordField('password',validators=[InputRequired()])
 
 
 
