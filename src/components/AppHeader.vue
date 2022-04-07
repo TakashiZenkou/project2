@@ -28,6 +28,10 @@
             <li class="nav-item">
               <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
+            
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/cars/new">Add Cars</RouterLink>
+            </li>
           </ul>
         </div>
       </div>
