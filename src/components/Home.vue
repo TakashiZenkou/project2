@@ -1,12 +1,11 @@
 <template>
 
-<body>
-        <img :src = "image" class = 'homeimg'>
+    <body>
 
+    <button @click="Register">Register</button>
+    <button @click="Login">Login</button>
 
-
-</body>
-
+    </body>
 </template>
 
 <script>
@@ -40,6 +39,10 @@ methods:
     padding:0px;
     box-sizing: border-box;
 
+}
+
+body{
+    padding-top: 75px;
 }
 
 

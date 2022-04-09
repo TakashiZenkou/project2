@@ -37,11 +37,12 @@
 </template>
 
 <script>
+
 import { RouterLink } from "vue-router";
+
 </script>
 
 <style scoped>
-
 .navbar-brand{
 
   font-size: 14px;
