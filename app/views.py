@@ -13,7 +13,6 @@ from .models import Cars,Users,Favourites
 from .forms import UserForm,LoginForm
 from werkzeug.utils import secure_filename
 from datetime import date
-import psycopg2
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
@@ -34,24 +33,22 @@ def register():
     form = UserForm()
     if request.method == "POST" and form.validate_on_submit():
 
-        picture = request.form['photo']
+        picture = request.files['photo']
         filename = secure_filename(picture.filename)
         picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-
-        reg = Users(
-
-        username = request.form['username'],
-        password = request.form['password'],
-        name = request.form['fullname'],
-        email = request.form['email'],
-        location = request.form['location'],
-        biography = request.form['biography'],
+        username = request.form['username']
+        password = request.form['password']
+        name = request.form['fullname']
+        email = request.form['email']
+        location = request.form['location']
+        biography = request.form['biography']
         date_joined = date.today()
-        
-        )
+        photo = filename
 
-      #  db.session.add(reg)
-       # db.session.commit()
+        reg = Users(username,password,name,email,location,biography,photo,date_joined) 
+
+        db.session.add(reg)
+        db.session.commit()
 
         return jsonify({"message": 'User Registration Successful'})
         
