@@ -12,10 +12,11 @@ import os
 from .models import Cars,Users,Favourites
 from .forms import UserForm,LoginForm
 from werkzeug.utils import secure_filename
-from datetime import date
+from datetime import *
 from flask_wtf.csrf import generate_csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
+import jwt
 
 
 
@@ -68,17 +69,24 @@ def login():
             user = Users.query.filter_by(username = username).first()
             if user is not None and check_password_hash(user.password,password):
                 login_user(user)
-                flash('Logged in successfully.', 'success')
-                return redirect('./views/HomeView.vue')
+                token = jwt.encode({
+                    'sub': user.email,
+                    'iat': datetime.now(),
+                    'exp': datetime.now() + timedelta(minutes=30)},
+                    os.path.join(app.config['SECRET_KEY']))    
+
+                return jsonify({"message": 'User Login Successful','token': token})
             else:
-                flash('Incorrect Credentials', 'danger')
-    return render_template("login.html",form =form)
+                return jsonify({"message": 'User Login Unsuccessful'})
+    return jsonify(form_errors(form))
+ 
+
 
 @login_required
 @app.route('/api/auth/logout', methods=["POST"])
 def logout():
 	logout_user()
-	return render_template('home.html')
+	return jsonify({"Logout Successful"})
 
 ###
 # The functions below should be applicable to all Flask apps.
