@@ -25,7 +25,8 @@
             </body>
 </template>
 
-<script>
+<script>import router from "../router";
+
 
 export default{
 
@@ -43,7 +44,7 @@ export default{
 
         let uploadForm = document.getElementById('loginform');
         let form_data = new FormData(uploadForm);
-
+        let self = this
         console.log(form_data)
          fetch("api/auth/login",{
                 method: 'POST',
@@ -58,6 +59,11 @@ export default{
             })
             .then(function(data){
                 console.log(data)
+                let jwt_token = data.data.token;
+                localStorage.setItem("token", jwt_token);
+                console.info("Token generated");
+                self.token = jwt_token;
+                router.push('/explore')
             })
             .catch(function(error){
                 console.log(error)

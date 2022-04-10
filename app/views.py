@@ -7,7 +7,7 @@ This file creates your application.
 
 import json
 from app import app,db,login_manager
-from flask import render_template, request, jsonify, send_file,redirect, url_for, flash
+from flask import render_template, request, jsonify, send_file,redirect, url_for, flash, g , session
 import os
 from .models import Cars,Users,Favourites
 from .forms import UserForm,LoginForm
@@ -17,12 +17,56 @@ from flask_wtf.csrf import generate_csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
 import jwt
+from functools import wraps
 
 
 
 ###
 # Routing for your application.
 ###
+
+def requires_auth(f):
+
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.headers.get('Authorization', None) # or request.cookies.get('token', None)
+
+        if not auth:
+            return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+
+        parts = auth.split()
+
+        if parts[0].lower() != 'bearer':
+
+            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+        elif len(parts) == 1:
+            return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+        elif len(parts) > 2:
+            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+
+        token = parts[1]
+        try:
+            payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+
+        except jwt.ExpiredSignatureError:
+            return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+        except jwt.DecodeError:
+            return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+
+        g.current_user = user = payload
+        return f(*args, **kwargs)
+
+    return decorated
+
+@app.route('/api/secure', methods=['GET'])
+@requires_auth
+def api_secure():
+    # This data was retrieved from the payload of the JSON Web Token
+    # take a look at the requires_auth decorator code to see how we decoded
+    # the information from the JWT.
+    user = g.current_user
+    return jsonify(data={"user": user}, message="Success")
+
 
 @app.route('/')
 def index():
@@ -68,25 +112,25 @@ def login():
             password = form.password.data
             user = Users.query.filter_by(username = username).first()
             if user is not None and check_password_hash(user.password,password):
-                login_user(user)
+                session['userid'] = user.id
                 token = jwt.encode({
                     'sub': user.email,
                     'iat': datetime.now(),
                     'exp': datetime.now() + timedelta(minutes=30)},
                     os.path.join(app.config['SECRET_KEY']))    
 
-                return jsonify({"message": 'User Login Successful','token': token})
+                return jsonify(message=" Login Successful and Token was Generated",data={"token":token})         
             else:
                 return jsonify({"message": 'User Login Unsuccessful'})
     return jsonify(form_errors(form))
  
 
 
-@login_required
-@app.route('/api/auth/logout', methods=["POST"])
+@app.route('/api/auth/logout', methods=['POST'])
+@requires_auth
 def logout():
-	logout_user()
-	return jsonify({"Logout Successful"})
+    user = g.current_user
+    return jsonify(data={"user": user}, message="Logged Out")
 
 ###
 # The functions below should be applicable to all Flask apps.

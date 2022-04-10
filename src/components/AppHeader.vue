@@ -19,17 +19,17 @@
             <li class="nav-item">
               <RouterLink to="/" class="nav-link active">Home</RouterLink>
             </li>
-            <li class="nav-item">
+            <li v-if = "!logged_in" class="nav-item">
               <RouterLink class="nav-link" to="/register">Register</RouterLink>
             </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/login">Login</RouterLink>
+            <li v-if = "!logged_in" class="nav-item">
+              <RouterLink @click = "Logout" class="nav-link" to="/login">Login</RouterLink>
             </li>
-            <li class="nav-item">
+            <li v-if = "logged_in" class="nav-item">
               <RouterLink class="nav-link" to="/logout">Logout</RouterLink>
             </li>
             
-            <li class="nav-item">
+            <li v-if = "logged_in" class="nav-item">
               <RouterLink class="nav-link" to="/cars/new">Add Cars</RouterLink>
             </li>
           </ul>
@@ -41,7 +41,26 @@
 
 <script>
 
-import { RouterLink } from "vue-router";
+export default {
+
+  data(){
+
+    return {null:null}
+  },
+
+  computed : {
+
+          logged_in: function() {
+            if (localStorage.getItem('token')) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+  }
+
 
 </script>
 
