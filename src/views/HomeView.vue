@@ -11,7 +11,7 @@ import Home from '../components/Home.vue';
 
 <style>
 
-.homepage {
+body {
 
     overflow: hidden;
 }
