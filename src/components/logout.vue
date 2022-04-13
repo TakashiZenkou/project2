@@ -1,12 +1,15 @@
 <template>
 <body>
-    <p> Logging Out</p>
+    <button @click = "Logout">Logout</button>
 </body>
 </template>
 
 <script>
 
+import router from "../router";
+
 export default{
+
 
     data(){
 
@@ -20,20 +23,18 @@ export default{
         let self = this;
         fetch('/api/auth/logout', 
         { method: 'POST', 
-        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token')}})
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'X-CSRFToken' : this.csrf_token,
+        }})
         .then(function (response) {
             return response.json();
         })
-        .then(function(response) {
-            let result = response.data;
-            alert(result.user.username + " logged out!")
+        .then(function(data) {
+            console.log(data);
             localStorage.removeItem('token');
-            console.info('Token removed from sessionStorage.');
+            console.info('Token removed from localstorage');
             router.push("/")
                 })
-        .catch(function (error) {
-            console.log(error);
-        })
     },
     getCsrfToken(){
             let self = this;
@@ -46,14 +47,8 @@ export default{
         }
     },
     created(){
-    },
-
-    beforeMount(){
-
     this.getCsrfToken()
-    this.Logout()
-    
-    }
+    },
 };
 
 

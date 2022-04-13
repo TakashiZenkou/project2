@@ -22,7 +22,7 @@
               <RouterLink class="nav-link" to="/register">Register</RouterLink>
             </li>
             <li v-if = "!logged_in" class="nav-item">
-              <RouterLink @click = "Logout" class="nav-link" to="/login">Login</RouterLink>
+              <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
             <li v-if = "logged_in" class="nav-item">
               <RouterLink class="nav-link" to="/cars/new">Add Cars</RouterLink>
