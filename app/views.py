@@ -138,38 +138,48 @@ def logout():
 Search by make or model
 """
 @app.route('/api/search', methods=['GET'])
+@requires_auth
 def search():
 
     qmake = request.args.get('make')
     qmodel = request.args.get('model')
 
-    cars = Cars.query.all()
-    matchedcars = []
+    cars = Cars.query.filter_by(make=qmake,model=qmodel)
+    
+    #matchedcars = []
+    #for car in cars:
+    #    cmake = car.make
+    #    cmodel = car.model
+    #    if cmake==qmake or cmodel==qmodel:
+    #        matchedcars.append(car)
 
-    for car in cars:
-        cmake = car.make
-        cmodel = car.model
-        if cmake==qmake or cmodel==qmodel:
-            matchedcars.append(car)
-
-    return jsonify([car.serialize() for car in matchedcars])
+    return jsonify([car.serialize() for car in cars])
 
 #User ID Route
 """
 Get details of a user by id
 """
 @app.route('/api/users/{user_id}', methods=['GET'])
+@requires_auth
 def users(user_id):
-    pass
+    user = Users.query.filter_by(id=user_id).first()
+    return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
 
 
 #User Favorites Route
 """
 Get cars that a user has favorited
 """
+@requires_auth
 @app.route('/api/users/{user_id}/favourites', methods=['GET'])
 def userfavorites(user_id):
-    pass
+    favorites = Favourites.query.filter_by(user_id=user_id)
+    
+    cars = []
+    for favorite in favorites:
+        cars.append(Cars.query.filter_by(car_id=favorite.car_id).first())
+
+    return jsonify([car.serialize() for car in cars])
 
 
 ###
