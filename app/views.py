@@ -132,6 +132,32 @@ def logout():
     user = g.current_user
     return jsonify(data={"user": user}, message="Logged Out")
 
+
+#Search Route
+"""
+Search by make or model
+"""
+@app.route('/api/search', methods=['GET'])
+def search():
+    pass
+
+#User ID Route
+"""
+Get details of a user by id
+"""
+@app.route('/api/users/{user_id}', methods=['GET'])
+def users(user_id):
+    pass
+
+#User Favorites Route
+"""
+Get cars that a user has favorited
+"""
+@app.route('/api/users/{user_id}/favourites', methods=['GET'])
+def userfavorites(user_id):
+    pass
+
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
