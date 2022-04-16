@@ -54,6 +54,8 @@
 
 <script>
 
+import router from "../router";
+
 export default{
     data(){
         return {
@@ -82,6 +84,7 @@ export default{
             })
             .then(function(data){
                 console.log(data)
+                router.push('/login')
             })
             .catch(function(error){
                 console.log(error)
