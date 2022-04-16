@@ -139,7 +139,20 @@ Search by make or model
 """
 @app.route('/api/search', methods=['GET'])
 def search():
-    pass
+
+    qmake = request.args.get('make')
+    qmodel = request.args.get('model')
+
+    cars = Cars.query.all()
+    matchedcars = []
+
+    for car in cars:
+        cmake = car.make
+        cmodel = car.model
+        if cmake==qmake or cmodel==qmodel:
+            matchedcars.append(car)
+
+    return jsonify([car.serialize() for car in matchedcars])
 
 #User ID Route
 """
@@ -148,6 +161,7 @@ Get details of a user by id
 @app.route('/api/users/{user_id}', methods=['GET'])
 def users(user_id):
     pass
+
 
 #User Favorites Route
 """

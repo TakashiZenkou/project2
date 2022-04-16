@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config['JSON_SORT_KEYS'] = False
 csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
 

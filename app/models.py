@@ -16,6 +16,21 @@ class Cars(db.Model):
     photo = db.Column(db.String(100))
     user_id = db.Column(db.Integer)
 
+    def serialize(self):
+        return {
+            'id':self.id,
+            'description':self.description,
+            'year': self.year,
+            'make': self.make,
+            'model': self.model,
+            'colour': self.colour,
+            'transmission':self.transmission,
+            'car_type':self.car_type,
+            'price':self.price,
+            'photo':self.photo,
+            'user_id':self.user_id
+        }
+
     def get_id(self):
         try:
             return unicode(self.id)  # python 2 support
