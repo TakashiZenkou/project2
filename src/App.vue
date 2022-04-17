@@ -6,7 +6,7 @@ import Registration from './components/Registration.vue';
 </script>
 
 <template>
-  <AppHeader />
+  <AppHeader :key="$route.fullPath"/>
 
   <main>
     <RouterView/>

@@ -117,7 +117,7 @@ def login():
                 token = jwt.encode({
                     'sub': user.email,
                     'iat': datetime.datetime.now(datetime.timezone.utc),
-                    'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=2)},
+                    'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30)},
                     os.path.join(app.config['SECRET_KEY']))    
 
                 return jsonify(message=" Login Successful and Token was Generated",data={"token":token})         
