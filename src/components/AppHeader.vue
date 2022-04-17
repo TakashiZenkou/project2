@@ -28,7 +28,7 @@
               <RouterLink class="nav-link" to="/cars/new">Add Cars</RouterLink>
             </li>
             <li v-if = "logged_in" class="nav-item">
-              <RouterLink class="nav-link" to="/logout">Logout</RouterLink>
+              <RouterLink class="nav-link" @click = "Logout" to="/logout">Logout</RouterLink>
             </li>
           </ul>
         </div>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+
+import router from "../router";
 
 export default {
 
@@ -55,6 +57,39 @@ export default {
                 return false;
             }
         }
+    },
+  methods:{
+
+        Logout(){
+
+        let self = this;
+        fetch('/api/auth/logout', 
+        { method: 'POST', 
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'X-CSRFToken' : this.csrf_token,
+        }})
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+            localStorage.removeItem('token');
+            console.info('Token removed from localstorage');
+            router.push("/")
+                })
+    },
+    getCsrfToken(){
+            let self = this;
+            fetch('/api/csrf-token')
+            .then((response)=>response.json())
+            .then((data)=>{
+                console.log(data);
+                self.csrf_token = data.csrf_token;
+            })
+        }
+    },
+    created(){
+    this.getCsrfToken()
     }
 
   }

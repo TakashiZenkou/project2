@@ -18,6 +18,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import check_password_hash
 import jwt
 from functools import wraps
+from flask import _request_ctx_stack
+import datetime
 
 
 
@@ -26,37 +28,36 @@ from functools import wraps
 ###
 
 def requires_auth(f):
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    auth = request.headers.get('Authorization', None) # or request.cookies.get('token', None) 
 
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.headers.get('Authorization', None) # or request.cookies.get('token', None)
+    if not auth:
+      return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
 
-        if not auth:
-            return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+    parts = auth.split()
 
-        parts = auth.split()
+    if parts[0].lower() != 'bearer':
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+    elif len(parts) == 1:
+      return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+    elif len(parts) > 2:
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
 
-        if parts[0].lower() != 'bearer':
+    token = parts[1]
+    try:
+        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
 
-            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
-        elif len(parts) == 1:
-            return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
-        elif len(parts) > 2:
-            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+    except jwt.ExpiredSignatureError:
+        return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+    except jwt.DecodeError:
+        return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
 
-        token = parts[1]
-        try:
-            payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    g.current_user = user = payload
+    return f(*args, **kwargs)
 
-        except jwt.ExpiredSignatureError:
-            return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
-        except jwt.DecodeError:
-            return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+  return decorated
 
-        g.current_user = user = payload
-        return f(*args, **kwargs)
-
-    return decorated
 
 @app.route('/api/secure', methods=['GET'])
 @requires_auth
@@ -115,8 +116,8 @@ def login():
                 session['userid'] = user.id
                 token = jwt.encode({
                     'sub': user.email,
-                    'iat': datetime.now(),
-                    'exp': datetime.now() + timedelta(minutes=30)},
+                    'iat': datetime.datetime.now(datetime.timezone.utc),
+                    'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=2)},
                     os.path.join(app.config['SECRET_KEY']))    
 
                 return jsonify(message=" Login Successful and Token was Generated",data={"token":token})         
