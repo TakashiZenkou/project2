@@ -10,7 +10,7 @@ from app import app,db,login_manager
 from flask import render_template, request, jsonify, send_file,redirect, url_for, flash, g , session
 import os
 from .models import Cars,Users,Favourites
-from .forms import UserForm,LoginForm
+from .forms import UserForm,LoginForm,CarForm
 from werkzeug.utils import secure_filename
 from datetime import *
 from flask_wtf.csrf import generate_csrf
@@ -134,6 +134,79 @@ def logout():
     return jsonify(data={"user": user}, message="Logged Out")
 
 
+
+@app.route("/api/cars", methods = ['POST','GET'])
+def cars():
+    try:
+        cars3 = []
+        cars = db.session.query(Cars).all()
+        x = abs(len(cars)-3)
+        for i in range(len(cars)-1,x-1,-1):
+            car = {"car_id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
+            cars3.append(car)
+        form = CarForm()
+        if request.method == 'POST':
+            price = request.form['price']
+            if form.validate_on_submit():
+                make = request.form['make']
+                model = request.form['model']
+                color = request.form['colour']
+                year = request.form['year']
+                price = request.form['price']
+                cartype = request.form['car_type']
+                transmission = request.form['transmission']
+                description = request.form['description']
+                picture = request.files['photo']
+                filename = secure_filename(picture.filename)
+                picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                user_id = request.form['user_id']
+                car = Cars(description,make,model,color,year,transmission,cartype,price,filename,user_id)
+                db.session.add(car)
+                db.session.commit()
+                return jsonify({"message": 'Car Registration Successful'}), 201
+            else:
+                errors = form_errors(form)
+                return jsonify(errors=errors,), 400
+        return jsonify(cars3)
+    except Exception as d:
+        print(d)
+        return jsonify({"message":"Internal Server Error"}), 500
+
+
+
+@app.route('/api/cars/<car_id>')
+def car(car_id):
+    try:
+        car = db.session.query(Cars).filter_by(id=car_id).all()
+        if car:
+            return jsonify(car)
+        return jsonify({"message": 'Car with that id does not exist'}), 400
+    except Exception as d:
+        print(d)
+        return jsonify({"message": "Internal Server Error"}), 500
+
+
+
+@app.route('/api/cars/<car_id>/favourite', methods = ['POST'])
+def favcar(car_id):
+    if request.method == 'POST':
+        try:
+            user_id = request.form['user_id']
+            carid = request.form['car_id']
+            favorite = Favourites.query.filter_by(car_id = carid).first()
+            print(favorite)
+            if favorite is None:
+                fav = Favourites(carid,user_id)
+                print(fav)
+                db.session.add(fav)
+                db.session.commit()
+                return jsonify(message="Car successfully added to Favourites"), 200
+            return jsonify(message="Already favourited this car"), 200
+        except Exception as d:
+            print(d)
+            return jsonify(message = "Error"), 400
+
+
 #Search Route
 """
 Search by make or model
@@ -141,20 +214,16 @@ Search by make or model
 @app.route('/api/search', methods=['GET'])
 @requires_auth
 def search():
-
-    qmake = request.args.get('make')
-    qmodel = request.args.get('model')
-
-    cars = Cars.query.filter_by(make=qmake,model=qmodel)
-    
-    #matchedcars = []
-    #for car in cars:
-    #    cmake = car.make
-    #    cmodel = car.model
-    #    if cmake==qmake or cmodel==qmodel:
-    #        matchedcars.append(car)
-
-    return jsonify([car.serialize() for car in cars])
+    try:
+        make = request.args.get('make')
+        model = request.args.get('model')
+        cars = Cars.query.filter((Cars.make == make) | (Cars.model == model)).all()
+        if not cars:
+            return jsonify({"message":"No Cars Matching the Search Terms Were Found"})
+        return jsonify(cars)
+    except Exception as d:
+        print(d)
+        return jsonify({"message":"Internal Server Error"}), 500
 
 #User ID Route
 """

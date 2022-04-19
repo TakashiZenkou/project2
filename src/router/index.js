@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import RegistrationView from '../views/RegistrationView.vue'
 import LoginView from '../views/LoginView.vue'
 import AddCarView from '../views/AddCarView.vue'
+import ExploreView from '../views/ExploreView.vue'
+import CarView from '../views/CarView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,16 @@ const router = createRouter({
       path:'/cars/new',
       name:'/cars/new',
       component: AddCarView
+    },
+    {
+      path: '/explore',
+      name: '/explore',
+      component:ExploreView
+    },
+    {
+      path: '/cars/:car_id',
+      name: '/cars/:car_id',
+      component:CarView
     }
   ]
 })

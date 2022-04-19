@@ -1,7 +1,20 @@
 from . import db
-from werkzeug.security import generate_password_hash
+from dataclasses import dataclass
 
+@dataclass
 class Cars(db.Model):
+
+    id: int
+    description: str
+    make: str
+    model: str
+    colour: str
+    year: str
+    transmission: str
+    car_type: str
+    price: float
+    photo: str
+    user_id: int
 
     __tablename__ = 'Cars'
     id = db.Column(db.Integer, primary_key=True)
@@ -38,7 +51,7 @@ class Cars(db.Model):
             return str(self.id)  # python 3 support
 
     def __repr__(self):
-        return '<User %r>' % (self.username)
+        return '<User %r>' % (self.id)
 
     def __init__(self,description,make,model,colour,year,transmission,car_type,price,photo,user_id):
         self.description = description
@@ -75,10 +88,10 @@ class Favourites(db.Model):
             return str(self.id)  # python 3 support
 
     def __repr__(self):
-        return '<User %r>' % (self.username)
+        return '<User %r>' % (self.id)
 
     def __init__(self,car_id,user_id):
-        self.car_id = id
+        self.car_id = car_id
         self.user_id = user_id
 
 class Users(db.Model):
