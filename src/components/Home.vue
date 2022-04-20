@@ -1,6 +1,6 @@
 <template>
 
-    <body>
+    <body @wheel.prevent @touchmove.prevent @scroll.prevent>
     <div class="leftside ">
         
         <div class="hometext ">
@@ -55,6 +55,8 @@ methods:
 
 <style scoped>
 
+
+
 * {
     
     margin:0px;
@@ -65,7 +67,8 @@ methods:
 
 body{
     padding-top: 25px;
-    display:flex
+    display:flex;
+    overflow: hidden;
     
 }
 

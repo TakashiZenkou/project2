@@ -17,6 +17,21 @@ import Registration from './components/Registration.vue';
 
 <style>
 body {
+
   background-color: rgb(226, 223, 223);
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+
+
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>
