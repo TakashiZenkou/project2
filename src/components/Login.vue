@@ -60,10 +60,12 @@ export default{
             .then(function(data){
                 console.log(data)
                 let jwt_token = data.data.token;
+                let user_id = data.id.id;
                 localStorage.setItem("token", jwt_token);
+                localStorage.setItem("id",user_id);
                 console.info("Token generated");
                 self.token = jwt_token;
-                router.push('/explore')
+                router.push('/explore');
             })
             .catch(function(error){
                 console.log(error)

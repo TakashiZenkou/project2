@@ -1,5 +1,6 @@
 from . import db
 from dataclasses import dataclass
+from werkzeug.security import generate_password_hash
 
 @dataclass
 class Cars(db.Model):

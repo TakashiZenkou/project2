@@ -82,6 +82,7 @@ export default {
         .then(function(data) {
             console.log(data);
             localStorage.removeItem('token');
+            localStorage.removeItem('id');
             console.info('Token removed from localstorage');
             router.push("/")
                 })

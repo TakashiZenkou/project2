@@ -16,7 +16,7 @@
         {{car.model}}
         {{car.price}}
         <img :src="'/uploads/'+car.photo" class="pfp"/>
-        <input type="submit" value="View more details" @click="move(car.car_id)">
+        <input type="submit" value="View more details" @click="move(car.id)">
     </div>
 </template>
 

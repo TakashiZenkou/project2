@@ -112,6 +112,7 @@ def login():
             username = form.username.data
             password = form.password.data
             user = Users.query.filter_by(username = username).first()
+            print(user)
             if user is not None and check_password_hash(user.password,password):
                 session['userid'] = user.id
                 token = jwt.encode({
@@ -120,7 +121,7 @@ def login():
                     'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30)},
                     os.path.join(app.config['SECRET_KEY']))    
 
-                return jsonify(message=" Login Successful and Token was Generated",data={"token":token})         
+                return jsonify(message=" Login Successful and Token was Generated",data={"token":token},id={"id":user.id})         
             else:
                 return jsonify({"message": 'User Login Unsuccessful'})
     return jsonify(form_errors(form))
@@ -142,7 +143,7 @@ def cars():
         cars = db.session.query(Cars).all()
         x = abs(len(cars)-3)
         for i in range(len(cars)-1,x-1,-1):
-            car = {"car_id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
+            car = {"id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
             cars3.append(car)
         form = CarForm()
         if request.method == 'POST':
