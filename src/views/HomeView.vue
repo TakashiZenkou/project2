@@ -9,11 +9,16 @@ import Home from '../components/Home.vue';
 
 </template>
 
-<style>
+<style >
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
 body {
-
-    overflow: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 </style>
