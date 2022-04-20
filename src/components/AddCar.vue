@@ -3,7 +3,7 @@
         <div class="container-sm">
             <h2 class ="font-weight-bold">Add New Car</h2>
         <div class="card shadow p-3 mb-5">
-            <form @submit.prevent="" enctype="multipart/form-data" id = "addCarform">
+            <form @submit.prevent="addCar" enctype="multipart/form-data" id = "addCarform">
             <div class="row mb-3">
                 <div class="col-6">
                     <label for = "Make" class = "form-label font-weight-bold ">Make </label>
@@ -75,7 +75,52 @@
 </template>
 
 <script>
-
+import router from "../router";
+export default ({
+        data() {
+            return{
+            csrf_token: '',
+        }     
+    },
+    created(){
+        this.getCsrfToken();
+    },
+    methods:{
+        addCar(){
+            let self = this;
+            let carForm = document.getElementById("addCarform");
+            let form_data = new FormData(carForm);
+            form_data.append('user_id',localStorage.getItem('id'))
+            for (var [key, value] of form_data.entries()) { 
+            console.log(key, value);
+    }
+            fetch('/api/cars',{
+                method: 'POST',
+                body: form_data,
+                headers:{ 'X-CSRFToken' : this.csrf_token
+                }
+            })
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                console.log(data)         
+            })
+            .catch(function(error){
+                console.log(error)
+            });
+        },
+            getCsrfToken(){
+            let self = this;
+            fetch('/api/csrf-token')
+            .then((response)=>response.json())
+            .then((data)=>{
+                console.log(data);
+                self.csrf_token = data.csrf_token;
+            })
+        },
+    }
+})
 </script>
 
 <style scoped>

@@ -22,12 +22,12 @@ class LoginForm(FlaskForm):
 
 class CarForm(FlaskForm):	
 
-	description = TextAreaField('Description',[InputRequired()])
-	make = StringField('Make',[InputRequired()])
-	model = StringField('Model',[InputRequired()])
-	colour = StringField('Colour',[InputRequired()])
-	year = StringField('Year', [InputRequired()])
-	transmission = StringField('Transmission', [InputRequired()])
-	car_type = StringField('Car Type', [InputRequired()])
-	price = DecimalField('Price',[InputRequired()])
+	Description = TextAreaField('Description',[InputRequired()])
+	Make = StringField('Make',[InputRequired()])
+	Model = StringField('Model',[InputRequired()])
+	Colour = StringField('Colour',[InputRequired()])
+	Year = StringField('Year', [InputRequired()])
+	Transmission = StringField('Transmission', [InputRequired()])
+	CarType = StringField('Car Type', [InputRequired()])
+	Price = DecimalField('Price',[InputRequired()])
 	photo = FileField('Photo',validators = [FileRequired(),FileAllowed(['jpg','png'],'Images')])

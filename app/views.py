@@ -136,27 +136,20 @@ def logout():
 
 
 
-@app.route("/api/cars", methods = ['POST','GET'])
-def cars():
+@app.route("/api/cars", methods = ['POST'])
+def pcars():
     try:
-        cars3 = []
-        cars = db.session.query(Cars).all()
-        x = abs(len(cars)-3)
-        for i in range(len(cars)-1,x-1,-1):
-            car = {"id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
-            cars3.append(car)
         form = CarForm()
         if request.method == 'POST':
-            price = request.form['price']
             if form.validate_on_submit():
-                make = request.form['make']
-                model = request.form['model']
-                color = request.form['colour']
-                year = request.form['year']
-                price = request.form['price']
-                cartype = request.form['car_type']
-                transmission = request.form['transmission']
-                description = request.form['description']
+                make = request.form['Make']
+                model = request.form['Model']
+                color = request.form['Colour']
+                year = request.form['Year']
+                price = request.form['Price']
+                cartype = request.form['CarType']
+                transmission = request.form['Transmission']
+                description = request.form['Description']
                 picture = request.files['photo']
                 filename = secure_filename(picture.filename)
                 picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
@@ -168,6 +161,20 @@ def cars():
             else:
                 errors = form_errors(form)
                 return jsonify(errors=errors,), 400
+    except Exception as d:
+        print(d)
+        return jsonify({"message":"Internal Server Error"}), 500
+
+
+@app.route("/api/cars", methods = ['GET'])
+def gcars():
+    try:
+        cars3 = []
+        cars = db.session.query(Cars).all()
+        x = abs(len(cars)-3)
+        for i in range(len(cars)-1,x-1,-1):
+            car = {"id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
+            cars3.append(car)
         return jsonify(cars3)
     except Exception as d:
         print(d)
