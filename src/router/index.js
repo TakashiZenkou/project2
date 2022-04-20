@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import AddCarView from '../views/AddCarView.vue'
 import ExploreView from '../views/ExploreView.vue'
 import CarView from '../views/CarView.vue'
+import UserView from '../views/UserView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/cars/:car_id',
       name: '/cars/:car_id',
       component:CarView
+    },
+    {
+      path: '/users/:user_id',
+      name: '/users/:user_id',
+      component:UserView
     }
   ]
 })

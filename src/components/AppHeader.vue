@@ -28,6 +28,12 @@
               <RouterLink class="nav-link" to="/cars/new">Add Cars</RouterLink>
             </li>
             <li v-if = "logged_in" class="nav-item">
+              <RouterLink class="nav-link" to="/explore">Explore</RouterLink>
+            </li>
+            <li v-if = "logged_in" class="nav-item">
+              <RouterLink class="nav-link" :to= '"/users/"+ id' >My Profile</RouterLink>
+            </li>
+            <li v-if = "logged_in" class="nav-item">
               <RouterLink class="nav-link" @click = "Logout" to="/login">Logout</RouterLink>
             </li>
           </ul>
@@ -45,7 +51,9 @@ export default {
 
   data(){
 
-    return {null:null}
+    return {null:null,
+      id: ''
+    }
   },
 
   computed : {
@@ -86,10 +94,17 @@ export default {
                 console.log(data);
                 self.csrf_token = data.csrf_token;
             })
-        }
+        },
+
+    Profile(){
+      let self = this;
+      self.id = localStorage.getItem('id')
+      console.log(self.id)
+    },
     },
     created(){
-    this.getCsrfToken()
+    this.Profile();
+    this.getCsrfToken();
     }
 
   }

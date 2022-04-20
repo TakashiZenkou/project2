@@ -229,7 +229,7 @@ def search():
 """
 Get details of a user by id
 """
-@app.route('/api/users/{user_id}', methods=['GET'])
+@app.route('/api/users/<user_id>', methods=['GET'])
 @requires_auth
 def users(user_id):
     user = Users.query.filter_by(id=user_id).first()
@@ -241,13 +241,13 @@ def users(user_id):
 Get cars that a user has favorited
 """
 @requires_auth
-@app.route('/api/users/{user_id}/favourites', methods=['GET'])
+@app.route('/api/users/<user_id>/favourites', methods=['GET'])
 def userfavorites(user_id):
-    favorites = Favourites.query.filter_by(user_id=user_id)
-    
+    favorites = Favourites.query.filter_by(user_id=user_id).all()
     cars = []
+    print(favorites)
     for favorite in favorites:
-        cars.append(Cars.query.filter_by(car_id=favorite.car_id).first())
+        cars.append(Cars.query.filter_by(id=favorite.car_id).first())
 
     return jsonify([car.serialize() for car in cars])
 

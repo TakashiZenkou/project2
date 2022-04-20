@@ -15,7 +15,7 @@
         {{car.make}}
         {{car.model}}
         {{car.price}}
-        <img :src="'/uploads/'+car.photo"/>
+        <img :src="'/uploads/'+car.photo" class="pfp"/>
         <input type="submit" value="View more details" @click="move(car.car_id)">
     </div>
 </template>
@@ -85,14 +85,16 @@ export default({
 })
 </script>
 
-<style scoped>
+<style>
 .test{
     height: 400px;
     width:300px;
 }
 
-img{
+.pfp{
     height:150px;
     width:50%;
 }
+
+
 </style>
