@@ -44,7 +44,7 @@ export default({
             })
             .then(function(data){
                 console.log(data)
-                self.tests = data;
+                self.tests.push(data);
                 console.log(self.tests)
             })
             .catch(function(error){

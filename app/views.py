@@ -177,7 +177,7 @@ def cars():
 @app.route('/api/cars/<car_id>')
 def car(car_id):
     try:
-        car = db.session.query(Cars).filter_by(id=car_id).all()
+        car = db.session.query(Cars).filter_by(id=car_id).first()
         if car:
             return jsonify(car)
         return jsonify({"message": 'Car with that id does not exist'}), 400
@@ -194,10 +194,8 @@ def favcar(car_id):
             user_id = request.form['user_id']
             carid = request.form['car_id']
             favorite = Favourites.query.filter_by(car_id = carid).first()
-            print(favorite)
             if favorite is None:
                 fav = Favourites(carid,user_id)
-                print(fav)
                 db.session.add(fav)
                 db.session.commit()
                 return jsonify(message="Car successfully added to Favourites"), 200
