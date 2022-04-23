@@ -5,7 +5,7 @@ import User from '../components/User.vue';
 
 <template>
 
-<User/>
+    <User/>
 
 </template>
 

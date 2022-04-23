@@ -2,15 +2,59 @@
     <br>
     <br>
     <br>
-    <form @submit.prevent="searchCar" class="d-flex flexcolumn justify-content-center">
-    <div class="input-group mx-sm-3 mb-2">
-    <label class="" for="make">Make</label>
-    <input type="search" name="make" id="make" v-model="make" class="form-control mb-2 mr-sm-2"/>
-    <label class="" for="model">Model</label>
-    <input type="search" name="model" id="model" v-model="model" class="form-control mb-2 mr-sm-2"/>
-    <button class="btn btn-primary mb-2">Search</button>
+    
+    <div class="container card">
+        <form @submit.prevent="searchCar" class="form-control">
+                <div class="carDetails form-inline">
+                    <label for="make">Make</label> <br>
+                    <input type="search" name="make" v-model="make">
+                </div>
+
+                <div class="carDetails form-inline">
+                    <label for="model">Model</label> <br>
+                    <input type="search" name="model" v-model="model">
+                </div>
+
+                <div class="form-inline">
+                    <button class="btn btn-primary mb-2">Search</button>
+                </div>
+        </form> 
     </div>
-    </form>
+    <!-- <div class ="container" >
+        <form @submit.prevent="searchCar" class="row d-flex justify-content-center">
+            <div class="card form-control input-group mx-sm-3">
+                <div class="form-group col-md-4 ">
+                    <label class="form-inline" for="make">Make</label> <br>
+                    <input type="search" name="make" id="make" v-model="make">
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-inline" for="model">Model</label> <br>
+                    <input type="search" name="model" id="model" v-model="model">
+                </div>
+                <div>
+                    <button class="btn btn-primary">Search</button>
+                </div>
+            </div>    
+
+        </form>
+    </div> -->
+    <!-- <form @submit.prevent="searchCar" class="form-inline d-flex flex-column justify-content-center">
+        <div class="form-control input-group mx-sm-3 mb-2">
+            <div class="form-group col-md-4 mb-10 mt-6 mr-6">
+                <label class="form-inline" for="make">Make</label>
+                <input type="search" name="make" id="make" v-model="make" class="form-control mb-2 mr-sm-2"/>
+            </div>
+                <div class="form-group col-md-4 mb-10 mt-6 mr-6">
+                <label class="form-inline" for="model">Model</label>
+                <input type="search" name="model" id="model" v-model="model" class="form-control mb-2 mr-sm-2"/>
+            </div>
+
+            
+            <button class="btn btn-primary mb-2">Search</button>
+        
+
+        </div>
+    </form> -->
     <div v-for="car in cars" class="test">
         {{car.make}}
         {{car.model}}
@@ -85,7 +129,7 @@ export default({
 })
 </script>
 
-<style>
+<style scoped>
 .test{
     height: 400px;
     width:300px;
@@ -96,5 +140,38 @@ export default({
     width:50%;
 }
 
+/* .container { 
+    display: flex;
+    flex-wrap: wrap;
+    background-color:blueviolet;
+} */
 
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    margin: 10px;
+}
+
+.card {
+    width: 800px;
+    align-items: center;
+    padding: 20px;
+}
+
+button {
+  margin-left: 15px;
+}
+
+.btn-primary {
+    background-color: aquamarine;
+}
+
+.btn {
+    display: flex;
+}
+.carDetails {
+    margin-left: 40px;
+}
 </style>

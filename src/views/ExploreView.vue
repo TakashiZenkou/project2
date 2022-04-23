@@ -4,7 +4,7 @@ import Explore from '../components/Explore.vue';
 </script>
 
 <template>
-<Explore/>
+    <Explore/>
 </template>
 
 <style>
