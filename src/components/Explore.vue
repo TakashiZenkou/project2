@@ -20,48 +20,17 @@
                 </div>
         </form> 
     </div>
-    <!-- <div class ="container" >
-        <form @submit.prevent="searchCar" class="row d-flex justify-content-center">
-            <div class="card form-control input-group mx-sm-3">
-                <div class="form-group col-md-4 ">
-                    <label class="form-inline" for="make">Make</label> <br>
-                    <input type="search" name="make" id="make" v-model="make">
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="form-inline" for="model">Model</label> <br>
-                    <input type="search" name="model" id="model" v-model="model">
-                </div>
-                <div>
-                    <button class="btn btn-primary">Search</button>
-                </div>
-            </div>    
+   
+   <div class="container">
 
-        </form>
-    </div> -->
-    <!-- <form @submit.prevent="searchCar" class="form-inline d-flex flex-column justify-content-center">
-        <div class="form-control input-group mx-sm-3 mb-2">
-            <div class="form-group col-md-4 mb-10 mt-6 mr-6">
-                <label class="form-inline" for="make">Make</label>
-                <input type="search" name="make" id="make" v-model="make" class="form-control mb-2 mr-sm-2"/>
-            </div>
-                <div class="form-group col-md-4 mb-10 mt-6 mr-6">
-                <label class="form-inline" for="model">Model</label>
-                <input type="search" name="model" id="model" v-model="model" class="form-control mb-2 mr-sm-2"/>
-            </div>
-
-            
-            <button class="btn btn-primary mb-2">Search</button>
-        
-
-        </div>
-    </form> -->
-    <div v-for="car in cars" class="test">
+       <div v-for="car in cars" class="test">
         {{car.make}}
         {{car.model}}
         {{car.price}}
         <img :src="'/uploads/'+car.photo" class="pfp"/>
         <input type="submit" value="View more details" @click="move(car.id)">
     </div>
+   </div>
 </template>
 
 <script>

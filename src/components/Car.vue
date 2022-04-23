@@ -1,4 +1,5 @@
 <template>
+
     <div v-for="test in tests">
         <br>
         <br>
@@ -14,7 +15,9 @@
          <img :src="'/uploads/'+test.photo"/>
         <input type="submit" value="View more details" @click="open">
     </div>
-
+    <div class="container">
+        <p>Test</p>
+    </div>
     
 </template>
 
