@@ -1,6 +1,6 @@
 <template>
 
-    <body @wheel.prevent @touchmove.prevent @scroll.prevent>
+    <body>
     <div class="leftside ">
         
         <div class="hometext ">
@@ -13,16 +13,16 @@
                 </p>
             </div>
     </div>
-    <div class="homebuttons">
-        <button type = "button" @click="Register" class = "btn btn-primary rbtn shadow">Register</button>
-        <button type = "button" @click="Login" class = "btn btn-success lbtn shadow">Login</button>
+        <div class="homebuttons">
+            <button type = "button" @click="Register" class = "btn btn-primary rbtn shadow">Register</button>
+            <button type = "button" @click="Login" class = "btn btn-success lbtn shadow">Login</button>
 
-    </div>
         </div>
+    </div>
 
     <div class="rightside">
 
-        <img :src ="image">
+        <img :src ="image" class = 'homeimg'>
         
     </div>
 
@@ -133,4 +133,5 @@ body{
     border-radius: 10px;
 
 }
+
 </style>

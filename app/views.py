@@ -136,12 +136,12 @@ def logout():
 
 
 
-@app.route("/api/cars", methods = ['POST'])
+@app.route("/api/cars", methods = ['POST','GET'])
 def pcars():
-    try:
-        form = CarForm()
-        if request.method == 'POST':
-            if form.validate_on_submit():
+
+    form = CarForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
                 make = request.form['Make']
                 model = request.form['Model']
                 color = request.form['Colour']
@@ -158,18 +158,7 @@ def pcars():
                 db.session.add(car)
                 db.session.commit()
                 return jsonify({"message": 'Car Registration Successful'}), 201
-            else:
-                errors = form_errors(form)
-                return jsonify(errors=errors,), 400
-    except Exception as d:
-        print(d)
-        return jsonify({"message":"Internal Server Error"}), 500
-
-
-@app.route("/api/cars", methods = ['GET'])
-@requires_auth
-def gcars():
-    try:
+    if request.method == 'GET':
         cars3 = []
         cars = db.session.query(Cars).all()
         x = abs(len(cars)-3)
@@ -177,10 +166,10 @@ def gcars():
             car = {"id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
             cars3.append(car)
         return jsonify(cars3)
-    except Exception as d:
-        print(d)
-        return jsonify({"message":"Internal Server Error"}), 500
+    return jsonify(form_errors(form))
 
+            
+       
 
 
 @app.route('/api/cars/<car_id>')

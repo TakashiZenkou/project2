@@ -78,6 +78,7 @@ export default({
             this.getCsrfToken();
             this.getCars();
     },
+    
     methods: {
         getCars(){
             let self = this;
@@ -86,6 +87,7 @@ export default({
                 headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}
             })
             .then(function(response){
+                console.log("test")
                 return response.json();
             })
             .then(function(data){

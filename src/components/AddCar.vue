@@ -91,9 +91,7 @@ export default ({
             let carForm = document.getElementById("addCarform");
             let form_data = new FormData(carForm);
             form_data.append('user_id',localStorage.getItem('id'))
-            for (var [key, value] of form_data.entries()) { 
-            console.log(key, value);
-    }
+            
             fetch('/api/cars',{
                 method: 'POST',
                 body: form_data,

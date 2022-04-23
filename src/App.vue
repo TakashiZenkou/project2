@@ -12,7 +12,6 @@ import Registration from './components/Registration.vue';
     <RouterView/>
   </main>
   
-  <AppFooter />
 </template>
 
 <style>
@@ -25,12 +24,12 @@ body {
 
 }
 
-body::-webkit-scrollbar {
+.container::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-body {
+.container {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
