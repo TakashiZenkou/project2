@@ -167,6 +167,7 @@ def pcars():
 
 
 @app.route("/api/cars", methods = ['GET'])
+@requires_auth
 def gcars():
     try:
         cars3 = []
@@ -183,6 +184,7 @@ def gcars():
 
 
 @app.route('/api/cars/<car_id>')
+@requires_auth
 def car(car_id):
     try:
         car = db.session.query(Cars).filter_by(id=car_id).first()
@@ -196,6 +198,7 @@ def car(car_id):
 
 
 @app.route('/api/cars/<car_id>/favourite', methods = ['POST'])
+@requires_auth
 def favcar(car_id):
     if request.method == 'POST':
         try:
