@@ -78,11 +78,6 @@ export default{
             .then(function(data){
 
                 alertDiv.style.display = 'block'
-                if('message' in data){
-                    self.message = data.message
-                    self.verified = true;
-                }
-
                 if('errors' in data){
                     self.errors = [...data.errors];
                     self.verified = false;
