@@ -26,8 +26,19 @@
             <p class="font-weight-bold">Price <span class = "normal"> {{"$" + parseFloat(test.price).toFixed(2)}} </span> </p>
             <p class="font-weight-bold">Transmission <span class = "normal"> {{test.transmission}} </span> </p>
         </div>
-        <button class = "btn btn-success">Email Owner</button>
-        <input type="submit" value="Test" @click="open">
+        <div class = "buttom">   
+            <button class = "btn btn-success">Email Owner</button>
+        <button v-show ="!favourited" @click = "open" class = "fav">
+            <svg v-show ="!favourited" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+        </button>
+        <button v-show = "favourited" @click = "closed" class = "fav">
+            <svg v-show ="favourited" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+        </button>
+        </div>
         </div>
     </div>
   </div>
@@ -46,7 +57,8 @@ export default({
     data() {
         return{
             csrf_token: '',
-            tests: []
+            tests: [],
+            favourited:false
         }    
     },
     created(){
@@ -86,7 +98,6 @@ export default({
             let fav = new FormData();
             fav.append('user_id',localStorage.getItem('id'));
             fav.append('car_id',`${self.$route.params.car_id}`);
-            console.log(self.$route.params.car_id)
             fetch(`/api/cars/${self.$route.params.car_id}/favourite`,{
                 method: 'POST',
                 headers:{'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -98,12 +109,16 @@ export default({
             })
             .then(function(data){
                 console.log(data)
+                self.favourited = true;
             })
             .catch(function(error){
                 console.log(error)
             })
 
         },
+        closed(){
+            this.favourited = false;
+        }
   }
 })
 
@@ -162,5 +177,18 @@ h5{
     font-weight: bold;
     color:grey;
     padding-bottom:5px;
+}
+
+.buttom{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fav{
+
+    border:none;
+    background-color: white;
 }
 </style>
