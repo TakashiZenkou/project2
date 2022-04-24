@@ -3,7 +3,7 @@
         <div class="container-sm">
             <h2 class ="font-weight-bold">Add New Car</h2>
                 <div v-if="verified" class="alert alert-success" role="alert" id="alert">
-                    <p>Car was added successfully</p>
+                    <p>{{ message }}</p>
                 </div>
                 <div v-else class="alert alert-danger" role="alert" id="alert">
                     <ul>
@@ -89,6 +89,7 @@ export default ({
             return{
             csrf_token: '',
             errors: [],
+            message: '',
             verified: false
 
         }     
@@ -110,8 +111,10 @@ export default ({
                 method: 'POST',
                 body: form_data,
                 errors: [],
+                message:'',
                 verified: false,
-                headers:{ 'X-CSRFToken' : this.csrf_token
+                headers:{ 'X-CSRFToken' : this.csrf_token,
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             })
             .then(function(response){
@@ -121,6 +124,11 @@ export default ({
                 console.log(data)
                 
                 alertDiv.style.display = 'block'
+                if('message' in data){
+                    self.message = data.message
+                    self.verified = true;
+                }
+
                 if('errors' in data){
                     self.errors = [...data.errors];
                     self.verified = false;

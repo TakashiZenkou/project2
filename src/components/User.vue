@@ -3,7 +3,7 @@
     <div class="profilec d-flex flex-column justify-content-center ">
         <div v-if="a" v-for="user in users" class="profile shadow p-3 mb-5 bg-white rounded border-2">
             <div class="img">
-                <img class="profileimg" :src="'/uploads/'+user.photo" alt="Card image cap">
+                <img class="profileimg" :src="'../uploads/'+user.photo" alt="Card image cap">
             </div>
             <div class="lel">
                 <div class="back">
