@@ -132,6 +132,7 @@ def login():
 @app.route('/api/auth/logout', methods=['POST'])
 @requires_auth
 def logout():
+    session.clear()
     user = g.current_user
     return jsonify(data={"user": user}, message="Logged Out")
 
@@ -139,7 +140,6 @@ def logout():
 
 @app.route("/api/cars", methods = ['POST','GET'])
 def pcars():
-
     form = CarForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -238,12 +238,14 @@ Get cars that a user has favorited
 @requires_auth
 @app.route('/api/users/<user_id>/favourites', methods=['GET'])
 def userfavorites(user_id):
-    favorites = Favourites.query.filter_by(user_id=user_id).all()
-    cars = []
-    for favorite in favorites:
-        cars.append(Cars.query.filter_by(id=favorite.car_id).first())
-
-    return jsonify([car.serialize() for car in cars])
+    if int(user_id) == session.get('userid'):
+        favorites = Favourites.query.filter_by(user_id=user_id).all()
+        cars = []
+        for favorite in favorites:
+            cars.append(Cars.query.filter_by(id=favorite.car_id).first())
+        return jsonify([car.serialize() for car in cars])
+    else:
+        return jsonify({"message":"Unauthorized"}), 401
 
 
 ###
