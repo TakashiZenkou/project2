@@ -99,7 +99,7 @@ def register():
 
         return jsonify({"message": 'User Registration Successful'})
         
-    return jsonify(form_errors(form))
+    return jsonify(errors=form_errors(form))
 
 @app.route('/api/csrf-token',methods=["GET"])
 def get_csrf():
@@ -125,7 +125,7 @@ def login():
                 return jsonify(message=" Login Successful and Token was Generated",data={"token":token},id={"id":user.id})         
             else:
                 return jsonify({"message": 'User Login Unsuccessful'})
-    return jsonify(form_errors(form))
+    return jsonify(errors=form_errors(form))
  
 
 
