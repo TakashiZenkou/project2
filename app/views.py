@@ -223,8 +223,11 @@ Get details of a user by id
 @app.route('/api/users/<user_id>', methods=['GET'])
 @requires_auth
 def users(user_id):
-    user = Users.query.filter_by(id=user_id).first()
-    return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
+    if int(user_id) == session.get('userid'):
+        user = Users.query.filter_by(id=user_id).first()
+        return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
+    else:
+        return jsonify({"message":"Unauthorized"}), 401
 
 
 #User Favorites Route
