@@ -187,19 +187,15 @@ def car(car_id):
 @requires_auth
 def favcar(car_id):
     if request.method == 'POST':
-        try:
-            user_id = request.form['user_id']
-            carid = request.form['car_id']
-            favorite = Favourites.query.filter_by(car_id = carid).first()
-            if favorite is None:
-                fav = Favourites(carid,user_id)
-                db.session.add(fav)
-                db.session.commit()
-                return jsonify(message="Car successfully added to Favourites"), 200
-            return jsonify(message="Already favourited this car"), 200
-        except Exception as d:
-            print(d)
-            return jsonify(message = "Error"), 400
+        user_id = request.form['user_id']
+        carid = request.form['car_id']
+        favorite = Favourites.query.filter_by(car_id = carid).first()
+        if favorite is None:
+            fav = Favourites(carid,user_id)
+            db.session.add(fav)
+            db.session.commit()
+            return jsonify(message="Car successfully added to Favourites"), 200
+        return jsonify(message="Already favourited this car"), 200
 
 
 #Search Route

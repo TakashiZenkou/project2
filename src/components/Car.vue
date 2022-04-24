@@ -11,8 +11,8 @@
     </div>
     <div class="col-md-8">
         <div class="card-body">
-            <h5 class="card-title">{{test.year}} {{test.make}}</h5>
-            <p class="card-text text-muted">{{test.model}}</p>
+            <h4 class="card-title">{{test.year}} {{test.make}}</h4>
+            <h5 class="card-text text-muted">{{test.model}}</h5>
             <p class="card-text"><small class="text-muted">{{test.description}}</small></p>
         <div class = "cardetails">
             <div class = "carcolor">    
@@ -27,6 +27,7 @@
             <p class="font-weight-bold">Transmission <span class = "normal"> {{test.transmission}} </span> </p>
         </div>
         <button class = "btn btn-success">Email Owner</button>
+        <input type="submit" value="Test" @click="open">
         </div>
     </div>
   </div>
@@ -45,7 +46,7 @@ export default({
     data() {
         return{
             csrf_token: '',
-            tests: [],
+            tests: []
         }    
     },
     created(){
@@ -87,10 +88,10 @@ export default({
             fav.append('car_id',`${self.$route.params.car_id}`);
             console.log(self.$route.params.car_id)
             fetch(`/api/cars/${self.$route.params.car_id}/favourite`,{
-                method: 'Post',
-                headers:{'Authorization': 'Bearer ' + localStorage.getItem('token')},
+                method: 'POST',
+                headers:{'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'X-CSRFToken' : this.csrf_token},
                 body: fav,
-                headers: {'X-CSRFToken' : this.csrf_token}
             })
             .then(function(response){
                 return response.json();
@@ -150,5 +151,16 @@ body{
 
     color:black;
     padding-left: 20px;
+}
+
+h4 {
+
+    font-weight: bold;
+}
+
+h5{
+    font-weight: bold;
+    color:grey;
+    padding-bottom:5px;
 }
 </style>
