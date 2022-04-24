@@ -26,7 +26,7 @@
                             <div class="cardTitle">
                                 <p class="h6">{{car.year}} {{car.make}}</p>
                                 <div class="price-highlight">
-                                    <span class="highlight"> ${{ parseFloat(car.price).toFixed(2) }} </span>
+                                    <span class="highlight"> {{"$" + parseFloat(car.price).toFixed(2)}} </span>
                                 </div>
                                 
                             </div>

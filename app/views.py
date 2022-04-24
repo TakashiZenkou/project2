@@ -187,19 +187,15 @@ def car(car_id):
 @requires_auth
 def favcar(car_id):
     if request.method == 'POST':
-        try:
-            user_id = request.form['user_id']
-            carid = request.form['car_id']
-            favorite = Favourites.query.filter_by(car_id = carid).first()
-            if favorite is None:
-                fav = Favourites(carid,user_id)
-                db.session.add(fav)
-                db.session.commit()
-                return jsonify(message="Car successfully added to Favourites"), 200
-            return jsonify(message="Already favourited this car"), 200
-        except Exception as d:
-            print(d)
-            return jsonify(message = "Error"), 400
+        user_id = request.form['user_id']
+        carid = request.form['car_id']
+        favorite = Favourites.query.filter_by(car_id = carid).first()
+        if favorite is None:
+            fav = Favourites(carid,user_id)
+            db.session.add(fav)
+            db.session.commit()
+            return jsonify(message="Car successfully added to Favourites"), 200
+        return jsonify(message="Already favourited this car"), 200
 
 
 #Search Route
@@ -227,8 +223,11 @@ Get details of a user by id
 @app.route('/api/users/<user_id>', methods=['GET'])
 @requires_auth
 def users(user_id):
-    user = Users.query.filter_by(id=user_id).first()
-    return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
+    if int(user_id) == session.get('userid'):
+        user = Users.query.filter_by(id=user_id).first()
+        return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
+    else:
+        return jsonify({"message":"Unauthorized"}), 401
 
 
 #User Favorites Route
