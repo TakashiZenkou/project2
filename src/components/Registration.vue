@@ -4,6 +4,16 @@
 
     <div class="container-sm">
         <h2 class ="font-weight-bold">Register New User</h2>
+
+        <div v-if="verified" class="alert alert-success" role="alert" id="alert">
+            <p>{{ message }}</p>
+        </div>
+        <div v-else class="alert alert-danger" role="alert" id="alert">
+            <ul>
+                <li v-for="error in errors" class="error"> {{ error }} </li>
+            </ul>
+        </div>
+
         <div class="card shadow p-3 mb-5">
             <form @submit.prevent="Registration" enctype="multipart/form-data" id = "registrationform">
             <div class="row mb-3">
@@ -59,7 +69,10 @@ import router from "../router";
 export default{
     data(){
         return {
-            csrf_token : ''
+            csrf_token : '',
+            errors: [],
+            message: '',
+            verified: false
         }
     },
     created(){
@@ -70,10 +83,15 @@ export default{
   
         Registration(){
             let uploadForm = document.getElementById('registrationform');
+            var alertDiv = document.getElementById('alert');
             let form_data = new FormData(uploadForm);
+            let self = this
             fetch("api/register",{
                 method: 'POST',
                 body: form_data,
+                errors: [],
+                message:'',
+                verified: false,
                 headers:{
                     'X-CSRFToken' : this.csrf_token
                 }
@@ -83,8 +101,26 @@ export default{
                 return response.json()
             })
             .then(function(data){
+
+                alertDiv.style.display = 'block'
+                if('message' in data){
+                    console.log(data)
+                    self.message = data.message
+                    self.verified = true;
+                    router.push('/login')
+                }
+
+                if('errors' in data){
+                    self.errors = [...data.errors];
+                    self.verified = false;
+                } else {
+                    self.errors = [];
+                    self.verified = true;
+                    router.push('/login')
+                }
+
                 console.log(data)
-                router.push('/login')
+                
             })
             .catch(function(error){
                 console.log(error)
@@ -106,7 +142,9 @@ export default{
 </script>
 
 <style scoped>
-
+.alert{
+    display:none;
+}
 .container-sm{
 
 

@@ -3,6 +3,16 @@
 
     <div class="container">
         <h2 class ="font-weight-bold text-center">Login to your account</h2>
+
+        <div v-if="verified" class="alert alert-success" role="alert" id="alert">
+            <p>{{ message }}</p>
+        </div>
+        <div v-else class="alert alert-danger" role="alert" id="alert">
+            <ul>
+                <li v-for="error in errors" class="error"> {{ error }} </li>
+            </ul>
+        </div>
+
         <div class="card">
             <form @submit.prevent="Login" enctype="multipart/form-data" id = "loginform">
             <div class="row mb-3">
@@ -32,7 +42,11 @@ export default{
 
     data(){
 
-    return {csrf_token: ''}
+    return {csrf_token: '',
+            errors: [],
+            message: '',
+            verified: false
+            }
 
     },
     created(){
@@ -44,11 +58,15 @@ export default{
 
         let uploadForm = document.getElementById('loginform');
         let form_data = new FormData(uploadForm);
+        var alertDiv = document.getElementById('alert');
         let self = this
         console.log(form_data)
          fetch("api/auth/login",{
                 method: 'POST',
                 body: form_data,
+                errors: [],
+                message:'',
+                verified: false,
                 headers:{
                     'X-CSRFToken' : this.csrf_token
                 }
@@ -58,6 +76,22 @@ export default{
                 return response.json()
             })
             .then(function(data){
+
+                alertDiv.style.display = 'block'
+                if('message' in data){
+                    self.message = data.message
+                    self.verified = true;
+                    router.push('/explore');
+                }
+
+                if('errors' in data){
+                    self.errors = [...data.errors];
+                    self.verified = false;
+                } else {
+                    self.errors = [];
+                    self.verified = true;
+                }
+
                 console.log(data)
                 let jwt_token = data.data.token;
                 let user_id = data.id.id;
@@ -88,7 +122,9 @@ export default{
 </script>
 
 <style scoped>
-
+.alert{
+    display:none;
+}
 .container{
 
     width:30%;
