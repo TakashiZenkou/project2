@@ -1,35 +1,40 @@
 <template>
 
-    <div v-for="test in tests">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        {{test.id}}
-        {{test.price}}
-        {{test.make}}
-         <img :src="'/uploads/'+test.photo"/>
-        <input type="submit" value="View more details" @click="open">
-    </div>
+<body>
+<div class="container">
 
-    <div class="card mb-3" style="max-width: 540px;">
+    <div v-for="test in tests">
+ <div class="card mb-3" style="max-width: 840px;">
   <div class="row g-0">
-    <div class="col-md-4">
-      <img src="..." class="img-fluid rounded-start" alt="...">
+      <div class="col-md-4">
+    <img :src="'/uploads/'+test.photo" class="img-fluid rounded-start carimg">
     </div>
     <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
+        <div class="card-body">
+            <h5 class="card-title">{{test.year}} {{test.make}}</h5>
+            <p class="card-text text-muted">{{test.model}}</p>
+            <p class="card-text"><small class="text-muted">{{test.description}}</small></p>
+        <div class = "cardetails">
+            <div class = "carcolor">    
+                <p class="font-weight-bold">Color <span class="normal">{{test.colour}} </span></p>
+            </div>
+            <div class ="cartype">
+                <p class="font-weight-bold">Body Type <span class="normal"> {{test.car_type}} </span></p>
+            </div>
+        </div>
+        <div class = "cardetails">
+            <p class="font-weight-bold">Price <span class = "normal"> {{test.price}} </span> </p>
+            <p class="font-weight-bold">Transmission <span class = "normal"> {{test.transmission}} </span> </p>
+        </div>
+        <button class = "btn btn-success">Email Owner</button>
+        </div>
     </div>
   </div>
 </div>
+</div>
+
+</div>
+</body>
     
 </template>
 
@@ -108,5 +113,42 @@ export default({
 img{
     height:150px;
     width:50%;
+}
+
+body{
+
+    padding-top:175px;
+}
+
+.container{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carimg{
+
+    height:100%;
+    width:100%;
+}
+
+.cardetails{
+
+    display:grid;
+	grid-template-columns: 200px 200px;
+
+
+}
+
+.font-weight-bold{
+
+    color:grey;
+}
+
+.normal {
+
+    color:black;
+    padding-left: 20px;
 }
 </style>
