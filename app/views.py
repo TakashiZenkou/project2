@@ -225,7 +225,7 @@ Get details of a user by id
 def users(user_id):
     if int(user_id) == session.get('userid'):
         user = Users.query.filter_by(id=user_id).first()
-        return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined)
+        return jsonify(id=user.id, username=user.username, name=user.name, email=user.email, location=user.location, biography=user.biography, photo=user.photo, date_joined=user.date_joined.strftime("%B %d, %Y"))
     else:
         return jsonify({"message":"Unauthorized"}), 401
 
@@ -239,7 +239,6 @@ Get cars that a user has favorited
 def userfavorites(user_id):
     favorites = Favourites.query.filter_by(user_id=user_id).all()
     cars = []
-    print(favorites)
     for favorite in favorites:
         cars.append(Cars.query.filter_by(id=favorite.car_id).first())
 
