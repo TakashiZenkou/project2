@@ -2,7 +2,8 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+        <a v-if="!logged_in" class="navbar-brand" href="/" > </a>
+        <a v-if="logged_in" class="navbar-brand" href="/explore">
         <img src = "../assets/HeaderIcon.png" width="25">  
         United Auto Sales</a>
         <button
