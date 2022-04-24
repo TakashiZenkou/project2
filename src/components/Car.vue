@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class = "cardetails">
-            <p class="font-weight-bold">Price <span class = "normal"> {{test.price}} </span> </p>
+            <p class="font-weight-bold">Price <span class = "normal"> {{"$" + parseFloat(test.price).toFixed(2)}} </span> </p>
             <p class="font-weight-bold">Transmission <span class = "normal"> {{test.transmission}} </span> </p>
         </div>
         <button class = "btn btn-success">Email Owner</button>
