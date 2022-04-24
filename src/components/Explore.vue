@@ -20,21 +20,39 @@
                 </div>
         </form> 
     </div>
-   
-   <div class="container">
 
-       <div v-for="car in cars" class="test">
-        {{car.make}}
-        {{car.model}}
-        {{car.price}}
-        <img :src="'/uploads/'+car.photo" class="pfp"/>
-        <input type="submit" value="View more details" @click="move(car.id)">
+    <div class="form-container">
+
     </div>
-   </div>
+   
+    <div class="card-container">
+            <div class="cardDisplay">
+                    <div v-for="car in cars" class="card cardBackground">
+                        <img :src="'/uploads/'+car.photo" class="card-img-top">
+                        <div class="card-body">
+                            <div class="cardTitle">
+                                <p class="h6">{{car.year}} {{car.make}}</p>
+                                <div class="price-highlight">
+                                    <span class="highlight"> ${{car.price}} </span>
+                                </div>
+                                
+                            </div>
+                            <p>{{car.model}}</p>              
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" value="View more details" @click="move(car.id)" class="btn">
+                        </div>
+                    </div>
+            </div>
+    </div>
+
+
 </template>
 
 <script>
 import router from "../router";
+import tagimg from '../assets/tag.png'
+
 export default({
     data() {
         return{
@@ -101,48 +119,71 @@ export default({
 </script>
 
 <style scoped>
-.test{
-    height: 400px;
-    width:300px;
+.tagimg{
+    width: 5%;
+    height: 5%;
+}
+.form-container{
+    margin-left: 8%;
+    margin-right: 8%;
 }
 
-.pfp{
-    height:150px;
-    width:50%;
-}
-
-/* .container { 
-    display: flex;
-    flex-wrap: wrap;
-    background-color:blueviolet;
-} */
-
-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-content: center;
-    margin: 10px;
-}
-
-.card {
-    width: 800px;
+.price-highlight{
+    background-color:rgb(5, 143, 78);
     align-items: center;
-    padding: 20px;
+    align-content: center;
+    border-radius: 10px;
+}
+.highlight{
+    font-size: small;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
 }
 
-button {
-  margin-left: 15px;
+.btn{
+    display: block;
+	width: 100%;
+    height: 100%;
+    background-color: rgb(46, 96, 153);
+    color: white;
 }
 
-.btn-primary {
-    background-color: aquamarine;
+.btn:hover{
+    background-color: rgb(17, 48, 131);
 }
 
-.btn {
+.cardTitle{
     display: flex;
+    justify-content: space-between;
 }
-.carDetails {
-    margin-left: 40px;
+
+.card-container{
+    margin-left: 8%;
+    margin-right: 8%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.cardDisplay{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card{
+    margin-top: 3%;
+    flex: 0 1 calc(50%-1em);
+}
+
+.card{
+    margin-top: 3%;
+    flex: 0 1 calc(50%-1em);
 }
 </style>
