@@ -75,6 +75,7 @@ def index():
 
 @app.route('/api/register',methods = ["POST"])
 def register():
+    print("Check")
     if not os.path.exists('./uploads'):
         os.makedirs('./uploads')
     form = UserForm()
