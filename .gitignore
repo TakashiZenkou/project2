@@ -35,5 +35,5 @@ venv
 .env
 .flaskenv
 
-# Upload Folder
-uploads 
+#Upload Folder
+uploads
