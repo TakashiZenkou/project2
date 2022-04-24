@@ -139,6 +139,7 @@ def logout():
 
 
 @app.route("/api/cars", methods = ['POST','GET'])
+@requires_auth
 def pcars():
     form = CarForm()
     if request.method == 'POST':

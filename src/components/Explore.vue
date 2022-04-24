@@ -18,7 +18,7 @@
         
     </div>
    
-    <div class="card-container">
+    <div v-if="a" class="card-container">
             <div class="cardDisplay">
                     <div v-for="car in cars" class="card cardBackground">
                         <img :src="'/uploads/'+car.photo" class="card-img-top">
@@ -52,6 +52,7 @@ export default({
             make: '',
             model: '',
             cars: [],
+            a: false,
         }    
     },
     created(){
@@ -73,6 +74,9 @@ export default({
             .then(function(data){
                 console.log(data)
                 self.cars = data;
+                if (Array.isArray(self.cars)) {
+                    self.a = true;
+                }
                 console.log(self.cars)
             })
             .catch(function(error){
