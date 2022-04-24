@@ -85,7 +85,7 @@ def register():
 
         picture = request.files['photo']
         filename = secure_filename(picture.filename)
-        picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+        picture.save(os.path.join(MYDIR + '/', app.config['UPLOAD_FOLDER'],filename))
         username = request.form['username']
         password = request.form['password']
         name = request.form['fullname']
@@ -160,7 +160,7 @@ def pcars():
                 picture = request.files['photo']
                 filename = secure_filename(picture.filename)
 
-                picture.save(os.path.join(MYDIR + '/', happ.config['UPLOAD_FOLDER'],filename))
+                picture.save(os.path.join(MYDIR + '/', app.config['UPLOAD_FOLDER'],filename))
                 
                 user_id = request.form['user_id']
                 car = Cars(description,make,model,color,year,transmission,cartype,price,filename,user_id)
