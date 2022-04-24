@@ -71,7 +71,7 @@ def api_secure():
 
 @app.route('/')
 def index():
-    return jsonify(message="This is the beginning of our API")
+    return send_file(os.path.join('../dist/', 'index.html'))
 
 @app.route('/api/register',methods = ["POST"])
 def register():

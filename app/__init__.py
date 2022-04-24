@@ -21,3 +21,5 @@ login_manager.login_view = 'login'
 migrate = Migrate(app,db)
 
 from app import views
+
+app = Flask(__name__, static_folder='../dist/assets')
