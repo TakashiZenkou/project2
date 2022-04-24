@@ -30,4 +30,8 @@ class CarForm(FlaskForm):
 	Transmission = StringField('Transmission', [InputRequired()])
 	CarType = StringField('Car Type', [InputRequired()])
 	Price = DecimalField('Price',[InputRequired()])
-	photo = FileField('Photo',validators = [FileRequired(),FileAllowed(['jpg','png'],'Images')])
+	photo = FileField('Photo',validators=[
+                                FileRequired(), 
+                                FileAllowed(['jpg','png','jpeg','jfif','webm'], "Only Images!" ),
+                                InputRequired()
+                                ])
