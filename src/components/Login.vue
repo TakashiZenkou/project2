@@ -81,7 +81,6 @@ export default{
                 if('message' in data){
                     self.message = data.message
                     self.verified = true;
-                    router.push('/explore');
                 }
 
                 if('errors' in data){
