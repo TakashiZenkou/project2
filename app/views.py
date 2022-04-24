@@ -157,7 +157,10 @@ def pcars():
                 description = request.form['Description']
                 picture = request.files['photo']
                 filename = secure_filename(picture.filename)
-                picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+
+                mydir = os.path.dirname(__file__)
+                picture.save(mydir,os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                
                 user_id = request.form['user_id']
                 car = Cars(description,make,model,color,year,transmission,cartype,price,filename,user_id)
                 db.session.add(car)
