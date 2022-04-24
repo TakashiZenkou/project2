@@ -1,28 +1,21 @@
 <template>
-    <br>
-    <br>
-    <br>
-    
-    <div class="container card">
-        <form @submit.prevent="searchCar" class="form-control">
-                <div class="carDetails form-inline">
-                    <label for="make">Make</label> <br>
-                    <input type="search" name="make" v-model="make">
-                </div>
 
-                <div class="carDetails form-inline">
-                    <label for="model">Model</label> <br>
-                    <input type="search" name="model" v-model="model">
-                </div>
-
-                <div class="form-inline">
-                    <button class="btn btn-primary mb-2">Search</button>
-                </div>
-        </form> 
-    </div>
-
-    <div class="form-container">
-
+    <div class="container">
+        <form @submit.prevent="searchCar" class="form-control mainForm row">
+            <div class="form-group col">
+                <label for="make">Make</label>
+                <input class="form-control" type="search" id="make" name="make" v-model="make" placeholder="Enter Make">
+            </div>
+            <div class="form-group col">
+                <label for="model">Model</label>
+                <input class="form-control" type="search" id="model" name="model" v-model="model" placeholder="Enter Model">
+            </div>
+            <div class="form-group col">
+                <p></p>
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </div>
+        </form>
+        
     </div>
    
     <div class="card-container">
@@ -33,13 +26,13 @@
                             <div class="cardTitle">
                                 <p class="h6">{{car.year}} {{car.make}}</p>
                                 <div class="price-highlight">
-                                    <span class="highlight"> ${{car.price}} </span>
+                                    <span class="highlight"> ${{ parseFloat(car.price).toFixed(2) }} </span>
                                 </div>
                                 
                             </div>
                             <p>{{car.model}}</p>              
                         </div>
-                        <div class="card-footer">
+                        <div>
                             <input type="submit" value="View more details" @click="move(car.id)" class="btn">
                         </div>
                     </div>
@@ -119,15 +112,27 @@ export default({
 </script>
 
 <style scoped>
+
+
 .tagimg{
     width: 5%;
     height: 5%;
 }
-.form-container{
-    margin-left: 8%;
-    margin-right: 8%;
+.container{
+    margin-top: 100px;
 }
 
+.mainForm{
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+
+.form-group{
+    margin: 0;
+    padding: 2%;
+}
 .price-highlight{
     background-color:rgb(5, 143, 78);
     align-items: center;
