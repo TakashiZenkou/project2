@@ -172,17 +172,14 @@ def pcars():
        
 
 
-@app.route('/api/cars/<car_id>')
+@app.route('/api/cars/<car_id>',methods = ["GET"])
 @requires_auth
 def car(car_id):
-    try:
+    if request.method == "GET":
         car = db.session.query(Cars).filter_by(id=car_id).first()
         if car:
             return jsonify(car)
         return jsonify({"message": 'Car with that id does not exist'}), 400
-    except Exception as d:
-        print(d)
-        return jsonify({"message": "Internal Server Error"}), 500
 
 
 
