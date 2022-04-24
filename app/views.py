@@ -26,6 +26,8 @@ import datetime
 ###
 # Routing for your application.
 ###
+MYDIR = os.path.dirname(__file__) 
+print(MYDIR)
 
 def requires_auth(f):
   @wraps(f)
@@ -158,7 +160,7 @@ def pcars():
                 picture = request.files['photo']
                 filename = secure_filename(picture.filename)
 
-                picture.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                picture.save(os.path.join(MYDIR + '/', happ.config['UPLOAD_FOLDER'],filename))
                 
                 user_id = request.form['user_id']
                 car = Cars(description,make,model,color,year,transmission,cartype,price,filename,user_id)

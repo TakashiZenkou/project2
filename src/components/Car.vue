@@ -7,7 +7,7 @@
  <div class="card mb-3" style="max-width: 840px;">
   <div class="row g-0">
       <div class="col-md-4">
-    <img :src="'/uploads/'+test.photo" class="img-fluid rounded-start carimg">
+    <img :src="'../uploads/'+test.photo" class="img-fluid rounded-start carimg">
     </div>
     <div class="col-md-8">
         <div class="card-body">
