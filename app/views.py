@@ -166,7 +166,7 @@ def pcars():
             car = {"id":cars[i].id, "photo":cars[i].photo , "year": cars[i].year, "make": cars[i].make,"price":cars[i].price, "model":cars[i].model, "description":cars[i].description, "colour":cars[i].colour, "transmission": cars[i].transmission, "car_type": cars[i].car_type, "user_id": cars[i].user_id}
             cars3.append(car)
         return jsonify(cars3)
-    return jsonify(form_errors(form))
+    return jsonify(errors = form_errors(form))
 
             
        

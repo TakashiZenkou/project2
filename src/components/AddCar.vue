@@ -2,6 +2,14 @@
     <body>
         <div class="container-sm">
             <h2 class ="font-weight-bold">Add New Car</h2>
+                <div v-if="verified" class="alert alert-success" role="alert" id="alert">
+                    <p>Car was added successfully</p>
+                </div>
+                <div v-else class="alert alert-danger" role="alert" id="alert">
+                    <ul>
+                        <li v-for="error in errors" class="error"> {{ error }} </li>
+                    </ul>
+                </div>
         <div class="card shadow p-3 mb-5">
             <form @submit.prevent="addCar" enctype="multipart/form-data" id = "addCarform">
             <div class="row mb-3">
@@ -71,7 +79,7 @@
         </div>
     </div>
 
-                    </body>
+    </body>
 </template>
 
 <script>
@@ -80,6 +88,9 @@ export default ({
         data() {
             return{
             csrf_token: '',
+            errors: [],
+            verified: false
+
         }     
     },
     created(){
@@ -90,6 +101,7 @@ export default ({
             let self = this;
             let carForm = document.getElementById("addCarform");
             let form_data = new FormData(carForm);
+            var alertDiv = document.getElementById('alert');
             form_data.append('user_id',localStorage.getItem('id'))
             for (var [key, value] of form_data.entries()) { 
             console.log(key, value);
@@ -97,6 +109,8 @@ export default ({
             fetch('/api/cars',{
                 method: 'POST',
                 body: form_data,
+                errors: [],
+                verified: false,
                 headers:{ 'X-CSRFToken' : this.csrf_token
                 }
             })
@@ -104,7 +118,17 @@ export default ({
                 return response.json();
             })
             .then(function(data){
-                console.log(data)         
+                console.log(data)
+                
+                alertDiv.style.display = 'block'
+                if('errors' in data){
+                    self.errors = [...data.errors];
+                    self.verified = false;
+                } else {
+                    self.errors = [];
+                    self.verified = true;
+                }
+                
             })
             .catch(function(error){
                 console.log(error)
@@ -124,8 +148,9 @@ export default ({
 </script>
 
 <style scoped>
-
-
+.alert{
+    display:none;
+}
 .container-sm{
 
 
