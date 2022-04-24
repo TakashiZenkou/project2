@@ -26,7 +26,7 @@
         <div class="row row-cols-1 row-cols-md-3 g-2" style="width:800px;"> 
             <div v-if="b" v-for="car in cars" class="col col-4">
                 <div class="card rounded" style="height:370px;">
-                    <img class="card-img-top" :src="'/uploads/'+car.photo" alt="Card image cap">
+                    <img class="card-img-top" :src="'uploads/'+car.photo" alt="Card image cap">
                     <div class="card-body">
                     <p class="card-title me-0;">{{car.year}} {{car.make}} <span> <button type="button" class="price">{{"$" + parseFloat(car.price).toFixed(2)}}</button> </span></p>
                     <p class="card-text text-secondary fw-bold">{{car.model}}</p>

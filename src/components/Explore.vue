@@ -21,7 +21,7 @@
     <div v-if="a" class="card-container">
             <div class="cardDisplay">
                     <div v-for="car in cars" class="card cardBackground">
-                        <img :src="'../uploads/'+car.photo" class="card-img-top">
+                        <img :src="'uploads/'+car.photo" class="card-img-top">
                         <div class="card-body">
                             <div class="cardTitle">
                                 <p class="h6">{{car.year}} {{car.make}}</p>
