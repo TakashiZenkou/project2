@@ -27,7 +27,7 @@
         <p class="card-text">{{car.model}}</p>
         </div>
         <div class="card-footer">
-        <button type="button" class="align-self-center btn btn-lg btn-block btn-primary mt-auto">View More Details</button>
+        <button @click="move(car.id)" type="button" class="align-self-center btn btn-lg btn-block btn-primary mt-auto">View More Details</button>
         </div>
     </div>
  </div>
@@ -36,6 +36,7 @@
 
 
 <script>
+import router from "../router";
 export default {
     data() {
         return{
@@ -101,6 +102,10 @@ export default {
                 .catch(function(error){
                     console.log(error)
                 })
+            },
+            move(car_id){
+                let self = this;
+                router.push(`/cars/${car_id}`)
             }
     }
 }
