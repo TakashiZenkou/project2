@@ -34,6 +34,3 @@ venv
 # Environment Variables
 .env
 .flaskenv
-
-# Upload Folder
-uploads 
