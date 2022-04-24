@@ -75,8 +75,8 @@ def index():
 
 @app.route('/api/register',methods = ["POST"])
 def register():
-    if not os.path.exists('/uploads'):
-        os.makedirs('/uploads')
+    if not os.path.exists('./uploads'):
+        os.makedirs('./uploads')
     form = UserForm()
     if request.method == "POST" and form.validate_on_submit():
 
@@ -107,6 +107,8 @@ def get_csrf():
 
 @app.route("/api/auth/login", methods=["POST"])
 def login():
+    if not os.path.exists('./uploads'):
+        os.makedirs('./uploads')
     form = LoginForm()
     if request.method == "POST":
         if form.validate_on_submit():
