@@ -235,9 +235,10 @@ def users(user_id):
 """
 Get cars that a user has favorited
 """
-@requires_auth
 @app.route('/api/users/<user_id>/favourites', methods=['GET'])
+@requires_auth
 def userfavorites(user_id):
+    print()
     if int(user_id) == session.get('userid'):
         favorites = Favourites.query.filter_by(user_id=user_id).all()
         cars = []
